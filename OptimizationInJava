@@ -23,7 +23,7 @@ public class OptimizationInJava {
             }
         }
         long end = System.nanoTime();
-        System.out.println("Time taken for nested loop: " + (end - start) / 100000 + " nanoseconds");
+        System.out.println("Time taken for nested loop: " + (end - start) / 1000000 + " ms");
 
         start = System.nanoTime();
         Map<String, List<Order>> ordersByCustomer = orders.stream()
@@ -39,7 +39,7 @@ public class OptimizationInJava {
             }
         }
         end = System.nanoTime();
-        System.out.println("Time taken for optimized approach: " + (end - start) / 100000 + " nanoseconds");
+        System.out.println("Time taken for optimized approach: " + (end - start) / 1000000 + " ms");
     }
 
     public List<Customer> getCustomerList() {
