@@ -1,0 +1,89 @@
+package com.sumit.stock_analysis.controller;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class OptimizationInJava {
+    public static void main(String[] args) {
+        OptimizationInJava test = new OptimizationInJava();
+        List<Customer> customers = test.getCustomerList();
+        List<Order> orders = test.getOrderList();
+
+        long start = System.nanoTime();
+        for (Customer customer : customers) {
+            for (Order order : orders) {
+                if (customer.getCustomerId().equals(order.getCustomerId())) {
+                    // Found a match
+                    break;
+                }
+            }
+        }
+        long end = System.nanoTime();
+        System.out.println("Time taken for nested loop: " + (end - start) / 100000 + " nanoseconds");
+
+        start = System.nanoTime();
+        Map<String, List<Order>> ordersByCustomer = orders.stream()
+                .collect(Collectors.groupingBy(Order::getCustomerId));
+
+        for (Customer customer : customers) {
+            List<Order> customerOrders = ordersByCustomer.get(customer.getCustomerId());
+            if (customerOrders != null) {
+                // Find latest order
+                Order latestOrder = customerOrders.stream()
+                        .max(Comparator.comparing(Order::getOrderDate))
+                        .orElse(null);
+            }
+        }
+        end = System.nanoTime();
+        System.out.println("Time taken for optimized approach: " + (end - start) / 100000 + " nanoseconds");
+    }
+
+    public List<Customer> getCustomerList() {
+        List<Customer> customers = new ArrayList<>();
+        for (int i = 1; i <= 50000; i++) {
+            Customer customer = new Customer();
+            customer.setCustomerId(String.valueOf((long) i));
+            customer.setName("Customer_" + i);
+            customers.add(customer);
+        }
+        return customers;
+    }
+
+    public List<Order> getOrderList() {
+        List<Order> orders = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 1; i <= 30000; i++) {
+            Order order = new Order();
+            order.setCustomerId(String.valueOf((long) (random.nextInt(50000) + 1)));
+            order.setOrderId("ORD" + i);
+            order.setOrderDate(LocalDate.now().minusDays(random.nextInt(100)));
+            orders.add(order);
+        }
+        return orders;
+    }
+
+    @Setter
+    @Getter
+    class Customer {
+        private String customerId;
+        private String name;
+        private String email;
+        private String phoneNumber;
+    }
+
+    @Setter
+    @Getter
+    class Order {
+        private String orderId;
+        private String symbol;
+        private String exchange;
+        private String orderType;
+        private String orderStatus;
+        private LocalDate orderDate;
+        private String customerId;
+    }
+}
