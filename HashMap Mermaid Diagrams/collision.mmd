@@ -1,0 +1,38 @@
+graph TD
+    subgraph "Hash Collision Scenario"
+        A[Key1: user123<br/>hash = 1847623<br/>index = 7]
+        B[Key2: user999<br/>hash = 2048599<br/>index = 7]
+        C[Key3: admin01<br/>hash = 1785847<br/>index = 7]
+    end
+
+    subgraph "Bucket Array"
+        D[Index 0: null]
+        E[Index 1: null]
+        F[Index 2: null]
+        G[Index 3: null]
+        H[Index 4: null]
+        I[Index 5: null]
+        J[Index 6: null]
+        K[Index 7: Head Node]
+        L[Index 8: null]
+        M[Index 9: null]
+    end
+
+    subgraph "Collision Chain at Index 7"
+        N[Node 1<br/>Key: user123<br/>Value: UserSession<br/>next: Node2]
+        O[Node 2<br/>Key: user999<br/>Value: UserSession<br/>next: Node3]
+        P[Node 3<br/>Key: admin01<br/>Value: AdminSession<br/>next: null]
+    end
+
+subgraph "Java 8+ Tree Conversion"
+Q[Chain Length > 8]
+R[Convert to Red-Black Tree]
+S["O(log n) performance<br/>instead of O(n)"]
+end
+
+K --> N
+N --> O
+O --> P
+
+Q --> R
+R --> S

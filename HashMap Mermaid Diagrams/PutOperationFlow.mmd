@@ -1,0 +1,21 @@
+flowchart LR
+    A["put(key, value)"] --> B["Calculate hash(key)"]
+    B --> C["Calculate index = hash & (n-1)"]
+    C --> D{"Is bucket empty?"}
+
+    D -->|Yes| E["Create new Node<br/>Store at bucket[index]"]
+    E --> F["Increment size"]
+    F --> G{"size > threshold?"}
+    G -->|Yes| H["resize() - Double capacity<br/>Rehash all elements"]
+    G -->|No| I["Operation Complete"]
+    H --> I
+
+    D -->|No| J{"Key exists in chain?"}
+    J -->|Yes| K["Update existing value"]
+    K --> I
+
+    J -->|No| L["Add new Node to chain"]
+    L --> M{"Chain length > 8?"}
+    M -->|Yes| N["Convert to Red-Black Tree<br/>(Java 8+)"]
+    M -->|No| F
+    N --> F

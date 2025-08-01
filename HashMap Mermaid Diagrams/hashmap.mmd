@@ -1,0 +1,23 @@
+graph TD
+    A[HashMap Structure] --> B["Bucket Array table[]"]
+    A --> C[Size: 5]
+    A --> D[Threshold: 12]
+    A --> E[Load Factor: 0.75]
+
+    B --> F[Index 0: null]
+    B --> G[Index 1: null]
+    B --> H[Index 2: Node]
+    B --> I[Index 3: null]
+    B --> J[Index 4: Node]
+    B --> K[Index 5: Node]
+    B --> L[Index 6: null]
+    B --> M[Index 7: Node]
+
+    H --> H1[Key: user789<br/>Value: UserSession<br/>Hash: 2047<br/>Next: null]
+
+    J --> J1[Key: user123<br/>Value: UserSession<br/>Hash: 1847<br/>Next: Node]
+    J1 --> J2[Key: user999<br/>Value: UserSession<br/>Hash: 1847<br/>Next: null]
+
+    K --> K1[Key: user456<br/>Value: UserSession<br/>Hash: 2053<br/>Next: null]
+
+    M --> M1[Key: user101<br/>Value: UserSession<br/>Hash: 1799<br/>Next: null]
