@@ -1,0 +1,43 @@
+flowchart TD
+    A[Client Request with UserRegistration Object] --> B[Spring Boot Controller]
+    B --> C["@Valid Annotation Triggered"]
+C --> D[Bean Validation Framework]
+D --> E[Scans Object for Validation Annotations]
+E --> F["@ValidEmail Annotation Found"]
+F --> G[EmailValidator.initialize called]
+G --> H[Extract Annotation Parameters]
+H --> I["allowDisposable: boolean<br/>allowedDomains: String[]<br/>blockedDomains: String[]<br/>requireTLD: boolean"]
+I --> J[EmailValidator.isValid called]
+J --> K{Email null or empty?}
+K -->|Yes| L[Return false - Invalid]
+K -->|No| M[Basic Format Validation<br/>Regex Pattern Check]
+M --> N{Format Valid?}
+N -->|No| O[Add Custom Message<br/>Return false]
+N -->|Yes| P[Extract Domain from Email]
+P --> Q{TLD Required & Missing?}
+Q -->|Yes| R[Add Custom Message<br/>Return false]
+Q -->|No| S{Domain in Blocked List?}
+S -->|Yes| T[Add Custom Message<br/>Return false]
+S -->|No| U{Allowed Domains Specified?}
+U -->|Yes| V{Domain in Allowed List?}
+U -->|No| W{Disposable Check Required?}
+V -->|No| X[Add Custom Message<br/>Return false]
+V -->|Yes| W
+W -->|Yes| Y{Is Disposable Domain?}
+W -->|No| Z[Return true - Valid]
+Y -->|Yes| AA[Add Custom Message<br/>Return false]
+Y -->|No| Z
+
+L --> BB[Validation Failed]
+O --> BB
+R --> BB
+T --> BB
+X --> BB
+AA --> BB
+Z --> CC[Validation Passed]
+
+BB --> DD[ConstraintViolationException]
+CC --> EE[Process Request Normally]
+
+DD --> FF[Return 400 Bad Request<br/>with Validation Errors]
+EE --> GG[Return 200 OK<br/>User Registered Successfully]

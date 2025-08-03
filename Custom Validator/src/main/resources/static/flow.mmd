@@ -1,0 +1,23 @@
+graph TB
+    A[Custom Annotation Creation] --> B["Define @interface"]
+B --> C[Add Meta-annotations]
+C --> D[Create Validator Class]
+D --> E[Implement Validation Logic]
+E --> F[Apply to Model Classes]
+F --> G[Runtime Validation]
+
+C --> C1[@Target - Where to apply]
+C --> C2[@Retention - How long to keep]
+C --> C3[@Constraint - Validation marker]
+C --> C4[@Documented - Include in docs]
+
+D --> D1[initialize method]
+D --> D2[isValid method]
+
+F --> F1[Field Level]
+F --> F2[Parameter Level]
+F --> F3[Class Level]
+
+G --> G1[Bean Validation Framework]
+G1 --> G2[Success]
+G1 --> G3[Failure]
