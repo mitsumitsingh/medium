@@ -1,0 +1,30 @@
+
+flowchart LR
+    A["I need to schedule a task"] --> B{"Is this task critical?<br>Would you be woken up<br>at 3 AM if it fails?"}
+    B -- No, it's not critical --> C{"Running on multiple servers?"}
+    B -- Yes, it's critical --> D{"Need to start/stop tasks<br>at runtime?"}
+    C -- Single server only --> E["@Scheduled <br>Perfect for:<br>• Health checks<br>• Metrics collection<br>• Cache warming<br>• Log cleanup"]
+    C -- Multiple servers --> F["@Scheduled + ShedLock <br>Great for:<br>• Simple tasks on clusters<br>• Minimal setup needed<br>• One instance runs it"]
+    D -- No, just set and forget --> G{"Complex multi-step workflow?<br>Needs to survive restarts?"}
+    D -- Yes, need control --> H{"Is it a business process<br>with multiple steps?"}
+    G -- Simple scheduled job --> I["Quartz <br>Enterprise scheduling:<br>• Database persistence<br>• Cluster coordination<br>• Retry mechanisms<br>• Management UI"]
+    G -- Complex workflow --> J["Temporal <br>Workflow engine:<br>• Long-running processes<br>• State management<br>• Visual monitoring<br>• Fault tolerance"]
+    H -- No, just need control --> K["TaskScheduler <br>Programmatic control:<br>• Start/stop at runtime<br>• Dynamic intervals<br>• Custom error handling<br>• Thread pool control"]
+    H -- Yes, business workflow --> J
+    A:::question
+    B:::question
+    C:::question
+    D:::question
+    E:::simple
+    F:::simple
+    G:::question
+    H:::question
+    I:::medium
+    J:::complex
+    K:::medium
+    classDef question fill:#fff3e0,stroke:#f57f17,stroke-width:2px
+    classDef simple fill:#c8e6c9,stroke:#388e3c,stroke-width:2px
+    classDef medium fill:#ffccbc,stroke:#f57c00,stroke-width:2px
+    classDef complex fill:#f8bbd9,stroke:#c2185b,stroke-width:2px
+    classDef examples fill:#e1f5fe,stroke:#0277bd,stroke-width:1px
+    classDef shortcuts fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1px
